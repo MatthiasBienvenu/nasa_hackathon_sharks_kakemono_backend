@@ -66,7 +66,7 @@ class UNet(nn.Module):
         for down in self.downs:
             cur = down(cur)
             skip_connections.append(cur)
-            cur = self.pool(cur)
+            cur = self.down_sample(cur)
 
         # Bottleneck
         cur = self.bottleneck(cur)

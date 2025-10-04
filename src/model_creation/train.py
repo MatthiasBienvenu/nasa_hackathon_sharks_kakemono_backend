@@ -11,29 +11,39 @@ from unet import UNet
 # 1. Setup and configuration
 # -----------------------------
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-num_epochs = 50
-batch_size = 32
-learning_rate = 1e-4
+num_epochs = 100
+batch_size = 64
+learning_rate = 3e-4
 checkpoint_dir = "checkpoints"
 os.makedirs(checkpoint_dir, exist_ok=True)
 
 # -----------------------------
 # 2. Data and model
 # -----------------------------
-tr = Compose(
+inputs_tr = Compose([
     ToImage(),
-    RandomCrop((128, 128)),
+    RandomCrop([128, 128]),
     ToDtype(torch.float32),
-    Normalize(mean=127.5, std=127.5, inplace=True)
-)
-
-train_dataset = CycloneDataset(test=False, transform=tr)
-test_dataset = CycloneDataset(test=True, transform=tr)
+    Normalize(mean=[127.5], std=[127.5], inplace=True)
+])
+targets_tr = Compose([
+    ToImage(),
+    RandomCrop([128, 128]),
+    ToDtype(torch.int64),
+    Lambda(lambda t: t.squeeze())
+])
+train_dataset = CycloneDataset(test=False, inputs_transform=inputs_tr, targets_transform=targets_tr)
+test_dataset = CycloneDataset(test=True, inputs_transform=inputs_tr, targets_transform=targets_tr)
 
 train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
 test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
-model = UNet(input_dim=10, output_dim=2).to(device)
+model = UNet(
+    in_channels=1,
+    out_channels=3,
+    features=[64, 128, 256]
+).to(device)
+
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=learning_rate)
 
@@ -71,6 +81,7 @@ for epoch in range(start_epoch, num_epochs + 1):
 
         # Forward
         outputs = model(inputs)
+        # falltens the channels
         loss = criterion(outputs, targets)
 
         # Backward

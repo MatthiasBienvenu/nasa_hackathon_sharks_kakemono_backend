@@ -7,21 +7,23 @@ from PIL import Image
 
 
 class CycloneDataset(Dataset):
-    def __init__(self, test: bool, transform=None):
+    def __init__(self, test: bool, inputs_transform=None, targets_transform=None):
         self.path = f"dataset/{'test' if test else 'train'}"
-        self.transform = transform
+        self.inputs_transform = inputs_transform
+        self.targets_transform = targets_transform
 
     def __len__(self):
         return len(os.listdir(self.path))
 
     def __getitem__(self, idx: int):
         inputs = Image.open(f"{self.path}/inputs/{idx}.png")
-        targets = ToTensor()(
-            Image.open(f"{self.path}/targets/{idx}.png")
-        )
+        targets = Image.open(f"{self.path}/targets/{idx}.png")
 
-        if self.transform:
-            inputs = self.transform(inputs)
+        if self.inputs_transform:
+            inputs = self.inputs_transform(inputs)
+
+        if self.targets_transform:
+            targets = self.targets_transform(targets)
 
         return inputs, targets
 
