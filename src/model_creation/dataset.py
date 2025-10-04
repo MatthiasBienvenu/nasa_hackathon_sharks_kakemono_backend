@@ -8,7 +8,7 @@ from PIL import Image
 
 class CycloneDataset(Dataset):
     def __init__(self, test: bool, transform=None):
-        self.path = f"dataset/{"test" if test else "train"}"
+        self.path = f"dataset/{'test' if test else 'train'}"
         self.transform = transform
 
     def __len__(self):
