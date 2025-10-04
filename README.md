@@ -18,15 +18,32 @@ git clone https://github.com/MatthiasBienvenu/nasa_hackathon_sharks_kakemono_bac
 cd nasa_hackathon_sharks_kakemono_backend
 ```
 
-2. Create a virtual environment:
+2. Download _uv_ for python environment management
+``` bash
+# Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# if you don't have curl
+wget -qO- https://astral.sh/uv/install.sh | sh
+```
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
-3. Install dependencies:
+3. Create a virtual environment:
 ```bash
-pip install -r requirements.txt
+uv venv
+```
+
+4. Activate or deactivate the venv
+``` bash
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+deactivate
+```
+
+5. Install dependencies:
+```bash
+uv pip install -r requirements.txt
 ```
 
 ## Running the Application
@@ -49,17 +66,6 @@ Once the server is running, you can access:
 - `GET /` - Welcome message
 - `GET /health` - Health check endpoint
 - `GET /api/v1/info` - API information
-
-## Project Structure
-
-```
-nasa_hackathon_sharks_kakemono_backend/
-├── main.py              # FastAPI application
-├── requirements.txt     # Python dependencies
-├── README.md           # This file
-├── LICENSE             # MIT License
-└── .gitignore          # Git ignore rules
-```
 
 ## License
 
