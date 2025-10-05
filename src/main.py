@@ -1,3 +1,5 @@
+import io
+from matplotlib import pyplot as plt
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, StreamingResponse
@@ -93,12 +95,16 @@ async def api_get_eddies_heatmap():
 
 @app.get("api/v1/get_local_temperature_graph")
 async def api_get_local_temperature_graph():
+    return FileResponse(
+        "shark/temperature.jpg",
+        media_type="image/jpg",
+        filename="temperatureAnticyclone.jpg"
+    )
 
-# 3. Save figure to a bytes buffer
-    buf = io.BytesIO()
-    plt.savefig(buf, format='png', bbox_inches='tight')
-    plt.close(fig)
-    buf.seek(0)
 
-    # 4. Return image as a StreamingResponse
-    return StreamingResponse(buf, media_type="image/png")
+
+
+
+
+
+

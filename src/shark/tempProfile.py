@@ -11,7 +11,7 @@ def profilTemperature(Tsurface, Tprofondeur, profondeurTfroid, Temp, distanceToC
     depth / (profondeurTfroid + amplitude * 1e7 * 20 * np.exp(- distanceToCenter**2 / ((Radius / 3)* (1 + depth / profondeurTfroid) / 2)**2)) = (10 ** ((Tsurface - Tprofondeur ) / ( Temp - Tprofondeur ) - 1) + 4 ) / 8"""
     #depth = (profondeurTfroid + amplitude * 1e7 * 20 * np.exp(- distanceToCenter**2 / ((Radius / 3)* (1 + Tprofondeur / Tsurface) / 2)**2)) * (10 ** ((Tsurface - Tprofondeur ) / ( Temp - Tprofondeur ) - 1) + 4) / 8
     s = Radius / 2
-    depth = (profondeurTfroid + amplitude * 1e7 * 30 * np.exp(- distanceToCenter**2 / (s* (1 + Tprofondeur / Temp) / 2)**2)) * (( np.log(((Tsurface - Tprofondeur ) / ( Temp - Tprofondeur ) - 1)) + 4) / 8)
+    depth = (profondeurTfroid - amplitude * 1e7 * 30 * np.exp(- distanceToCenter**2 / (s* (1 + Tprofondeur / Temp) / 2)**2)) * (( np.log(((Tsurface - Tprofondeur ) / ( Temp - Tprofondeur ) - 1)) + 4) / 8)
     return depth
 
 Tsurface = 20.2
@@ -180,5 +180,5 @@ cbar = fig.colorbar(mappable, ax=ax)
 cbar.set_label("Température (°C)")
 
 plt.tight_layout()
-#plt.savefig("GradientTemperature.png")
-plt.show()
+#plt.savefig("temperatureCyclone.png")
+plt.show()      
