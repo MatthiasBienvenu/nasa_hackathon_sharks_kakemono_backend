@@ -36,7 +36,7 @@ print(data_anticyclones[0], data_cyclones[0])
 # --- Create Eddy objects ---
 eddies = []
 for lat, lon, amp, _ in np.concatenate([data_cyclones, data_anticyclones]):
-    eddies.append(Eddy(pos=np.array([lat, lon]), amplitude=amp, radius=400))
+    eddies.append(Eddy(pos=np.array([lat, lon]), amplitude=amp, radius=80*amp))
 eddies = np.array(eddies)
 
 def generate_eddy_matrix_fast(eddies, size=512):
