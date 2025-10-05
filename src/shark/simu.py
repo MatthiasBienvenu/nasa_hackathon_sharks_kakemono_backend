@@ -187,7 +187,11 @@ sharks = [
 
 def get_shark_positions(sharks):
     return [
-        shark.position.tolist()
+        (
+            (shark.position - np.array([10001.5, 20037.5])) /
+            np.array([10001.5, 20037.5]) *
+            np.array([90, 180])
+        ).tolist()
         for shark in sharks
     ]
 

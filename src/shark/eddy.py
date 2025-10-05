@@ -23,13 +23,15 @@ class Eddy:
 # --- Load cyclone and anticyclone data ---
 def load_csv(path):
     with open(path) as f:
-        return [[float(x) for x in row] for row in csv.reader(f)]
+        reader = csv.reader(f)
+        next(reader)
+        return [[float(x) for x in row] for row in reader]
 
 
 data_cyclones = load_csv("shark/data_cyclones.csv")
 data_anticyclones = load_csv("shark/data_anticyclones.csv")
 
-print(data_cyclones, type(data_cyclones))
+print(data_anticyclones[0], data_cyclones[0])
 
 # --- Create Eddy objects ---
 eddies = []
