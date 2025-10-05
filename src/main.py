@@ -1,28 +1,13 @@
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(
-    title="NASA Hackathon Sharks Kakemono Backend",
-    description="Backend API for NASA Hackathon Sharks Kakemono project",
-    version="0.1.0"
-)
-
-# Configure CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app = FastAPI()
 
 
 @app.get("/")
 async def root():
     """Root endpoint - welcome message"""
     return {
-        "message": "Welcome to NASA Hackathon Sharks Kakemono Backend API",
-        "version": "0.1.0"
+        "message": "Welcome to NASA Hackathon Sharks Kakemono Backend API"
     }
 
 
@@ -49,3 +34,8 @@ async def api_info():
             {"path": "/redoc", "method": "GET", "description": "ReDoc API documentation"}
         ]
     }
+
+
+@app.get("/api/v1/sharks")
+async def api_sharks():
+    pass
